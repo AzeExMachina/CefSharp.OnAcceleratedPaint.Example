@@ -579,7 +579,13 @@ namespace DirectX
                     }
                 }
 
-                swapChain.Present(VSYNC ? 1 : 0, PresentFlags.None);
+                if (VSYNC)
+                {
+                    swapChain.ContainingOutput.WaitForVerticalBlank();
+                    swapChain.Present(1, PresentFlags.None);
+                }
+                else
+                    swapChain.Present(0, PresentFlags.None);
             }
         }
 
