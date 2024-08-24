@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using CefSharp;
 
-[assembly: AssemblyTitle("CefSharp.Direct3D.Example")]
+[assembly: AssemblyTitle("CefSharp.WinForms.Direct3D.Example")]
 [assembly: AssemblyCompany(AssemblyInfo.AssemblyCompany)]
 [assembly: AssemblyProduct(AssemblyInfo.AssemblyProduct)]
 [assembly: AssemblyCopyright(AssemblyInfo.AssemblyCopyright)]

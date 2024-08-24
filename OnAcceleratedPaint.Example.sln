@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.Direct3D.Example.netcore", "CefSharp.Direct3D.Example\CefSharp.Direct3D.Example.netcore.csproj", "{D4541C3D-E6F8-4174-9D7D-1B3D3CDBF94C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefSharp.WinForms.Direct3D.Example.netcore", "CefSharp.WinForms.Direct3D.Example\CefSharp.WinForms.Direct3D.Example.netcore.csproj", "{D4541C3D-E6F8-4174-9D7D-1B3D3CDBF94C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
