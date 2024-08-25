@@ -40,6 +40,7 @@ namespace DirectX
             ClientSize = new Size(1091, 646);
             Name = "DXForm";
             Text = "DXForm";
+            FormClosed += DXForm_FormClosed;
             Shown += DXForm_Shown;
             ResumeLayout(false);
         }

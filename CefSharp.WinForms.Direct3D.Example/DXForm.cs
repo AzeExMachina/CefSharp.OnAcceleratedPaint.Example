@@ -76,6 +76,8 @@ namespace DirectX
 
 
         ChromiumWebBrowser browser;
+        Thread renderThread;
+        bool stopped = false;
 
         [StructLayout(LayoutKind.Sequential)]
         struct VertexDX11
@@ -542,13 +544,6 @@ namespace DirectX
             }
         }
 
-        private new void Close()
-        {
-            DestroyDevice();
-            DestroyBrowser();
-            base.Close();
-        }
-
         private void DestroyBrowser()
         {
             if (browser != null)
@@ -574,12 +569,29 @@ namespace DirectX
 
             CreateBrowser();
 
-            (new Thread(RenderThread)).Start();
+            renderThread = new Thread(RenderThread);
+            renderThread.Start();
+        }
+
+        private void DXForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            DestroyBrowser();
+
+            if (renderThread != null)
+            {
+                stopped = true;
+                renderThread.Join();
+                renderThread = null;
+            }
+
+            DestroyDevice();
+
+            base.Close();
         }
 
         private void RenderThread()
         {
-            while (true)
+            while (!stopped)
             {
                 if (EXTERNALTRIGGER)
                 {
