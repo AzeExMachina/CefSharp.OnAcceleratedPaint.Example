@@ -10,7 +10,6 @@ using D3D11 = SharpDX.Direct3D11;
 using CefSharp.OffScreen;
 using CefSharp.Enums;
 using CefSharp.Structs;
-using CefSharp;
 using System.IO;
 using System.Windows.Input;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
@@ -21,9 +20,9 @@ using System.Diagnostics;
 using System.Threading;
 using SharpDX.Mathematics.Interop;
 
-namespace DirectX
+namespace CefSharp.WinForms.Direct3D.Example
 {
-    public partial class DXForm : Form, IRenderHandler, IAudioHandler
+    public partial class DXForm : Form, IRenderHandler
     {
         const bool FULLSCREEN = false;
         const bool EXTERNALTRIGGER = true;
@@ -557,10 +556,9 @@ namespace DirectX
         {
             DestroyBrowser();
 
-            browser = new D3DChromiumWebBrowser("https://www.youtube.com/watch?v=7oAjnqu_wxE", EXTERNALTRIGGER);
+            browser = new D3DChromiumWebBrowser("https://www.youtube.com/", EXTERNALTRIGGER);
 
             browser.RenderHandler = this;
-            browser.AudioHandler = this;
         }
 
         private void DXForm_Shown(object sender, EventArgs e)
@@ -614,24 +612,6 @@ namespace DirectX
                 }
                 else
                     swapChain.Present(0, PresentFlags.None);
-            }
-        }
-
-        class D3DChromiumWebBrowser : ChromiumWebBrowser
-        {
-            public D3DChromiumWebBrowser(string url, bool externalFrameTrigger) : base(url, null,
-                new RequestContext(new RequestContextSettings() { CachePath = Path.GetFullPath("cache") }), false)
-            {
-                WindowInfo windowInfo = new WindowInfo();
-                windowInfo.SetAsWindowless(IntPtr.Zero);
-                windowInfo.WindowlessRenderingEnabled = true;
-                windowInfo.ExternalBeginFrameEnabled = externalFrameTrigger;
-                windowInfo.SharedTextureEnabled = true;
-
-                CreateBrowser(windowInfo, new BrowserSettings()
-                {
-                    WindowlessFrameRate = 60
-                });
             }
         }
 
@@ -892,28 +872,6 @@ namespace DirectX
         }
 
         public void UpdateDragCursor(DragOperationsMask operation)
-        {
-        }
-
-        /* IAudioHandler implementation */
-        public bool GetAudioParameters(IWebBrowser chromiumWebBrowser, IBrowser browser, ref AudioParameters parameters)
-        {
-            return true;
-        }
-
-        public void OnAudioStreamError(IWebBrowser chromiumWebBrowser, IBrowser browser, string errorMessage)
-        {
-        }
-
-        public void OnAudioStreamPacket(IWebBrowser chromiumWebBrowser, IBrowser browser, IntPtr data, int noOfFrames, long pts)
-        {
-        }
-
-        public void OnAudioStreamStarted(IWebBrowser chromiumWebBrowser, IBrowser browser, AudioParameters parameters, int channels)
-        {
-        }
-
-        public void OnAudioStreamStopped(IWebBrowser chromiumWebBrowser, IBrowser browser)
         {
         }
     }

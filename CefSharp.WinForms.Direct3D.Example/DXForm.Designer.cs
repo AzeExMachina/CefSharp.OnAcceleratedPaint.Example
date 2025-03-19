@@ -1,7 +1,7 @@
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace DirectX
+namespace CefSharp.WinForms.Direct3D.Example
 {
     partial class DXForm
     {
