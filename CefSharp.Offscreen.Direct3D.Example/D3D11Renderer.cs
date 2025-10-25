@@ -310,6 +310,34 @@ public class D3D11Renderer : IDisposable
         }
     }
     
+    public void ResizeWindow(int width, int height)
+    {
+        try
+        {
+            if (_width != width || _height != height)
+            {
+                _sharedTexture?.Dispose();
+                _device.ImmediateContext.OutputMerger.GetRenderTargets(out var depthStencilViewRef);
+                var targets = _device.ImmediateContext.OutputMerger.GetRenderTargets(1);
+                foreach (var target in targets)
+                {
+                    target.Dispose();
+                }
+                depthStencilViewRef?.Dispose();
+                _device.ImmediateContext.OutputMerger.ResetTargets();
+                _width = width;
+                _height = height;
+                CreateSharedTexture();
+                CreateRenderTarget();
+                _device.ImmediateContext.Flush();
+            }
+            Console.WriteLine($"Resized window {width}x{height}");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Failed to resize window: {e}");
+        }
+    }
 
 #if DEBUG
     private void SaveTextureToFile(Device1 device1, Texture2D source, int width, int height)

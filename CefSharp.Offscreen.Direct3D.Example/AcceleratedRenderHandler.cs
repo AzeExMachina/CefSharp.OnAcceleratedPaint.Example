@@ -21,6 +21,11 @@ public class AcceleratedRenderHandler(ChromiumWebBrowser browser, int windowWidt
                 break;
         }
     }
+
+    public void BrowserWasResized(int width, int height)
+    {
+        _renderer?.ResizeWindow(width, height);
+    }
     
     public override void OnPopupShow(bool show)
     {

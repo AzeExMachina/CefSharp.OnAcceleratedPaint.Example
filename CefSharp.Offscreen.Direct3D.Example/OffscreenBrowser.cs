@@ -27,6 +27,13 @@ public class OffscreenBrowser : ChromiumWebBrowser
         }
     }
 
+    public void ResizeBrowser(int width, int height)
+    {
+        Size = new Size(width, height);
+        if (RenderHandler is AcceleratedRenderHandler renderHandler)
+            renderHandler.BrowserWasResized(width, height);
+    }
+
     protected override void Dispose(bool disposing)
     {
         if (RenderHandler is AcceleratedRenderHandler renderHandler)
