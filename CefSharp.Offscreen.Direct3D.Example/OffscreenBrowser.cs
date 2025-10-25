@@ -26,4 +26,11 @@ public class OffscreenBrowser : ChromiumWebBrowser
             Console.WriteLine($"Error creating browser {e}");
         }
     }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (RenderHandler is AcceleratedRenderHandler renderHandler)
+            renderHandler.Dispose();
+        base.Dispose(disposing);
+    }
 }

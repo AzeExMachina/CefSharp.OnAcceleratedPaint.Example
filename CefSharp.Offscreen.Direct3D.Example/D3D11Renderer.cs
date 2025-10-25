@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using CefSharp.Structs;
 using SharpDX;
 using SharpDX.D3DCompiler;
@@ -26,7 +25,7 @@ namespace CefSharp.Offscreen.Direct3D.Example;
 /// <summary>
 /// D3D11 renderer for CefSharp.Offscreen.Direct3D.Example
 /// </summary>
-public class D3D11Renderer
+public class D3D11Renderer : IDisposable
 {
     private Texture2D _sharedTexture;
     private Device _device;
@@ -92,7 +91,6 @@ public class D3D11Renderer
 
     public D3D11Renderer(int windowWidth, int windowHeight)
     {
-        Cef.ShutdownStarted += (_, _) => Destroy();
         _width = windowWidth;
         _height = windowHeight;
         s_vertices = [new VertexDX11 {Position = new Vector4(-1, 1, 0, 1), TexCoord0 = new Vector2(0, 0)}, new VertexDX11 {Position = new Vector4(3, 1, 0, 1), TexCoord0 = new Vector2(2, 0)}, new VertexDX11 {Position = new Vector4(-1, -3, 0, 1), TexCoord0 = new Vector2(0, 2)}];
@@ -358,51 +356,12 @@ public class D3D11Renderer
     }
 #endif
 
-    /// <summary>
-    /// If we need to resize the window we need to recreate the shared texture and the render target
-    /// </summary>
-    /// <param name="width"></param>
-    /// <param name="height"></param>
-    public void ResizeWindow(int width, int height)
+    public void Dispose()
     {
-        try
-        {
-            if (_width != width || _height != height)
-            {
-                _sharedTexture?.Dispose();
-                _device.ImmediateContext.OutputMerger.GetRenderTargets(out var depthStencilViewRef);
-                var targets = _device.ImmediateContext.OutputMerger.GetRenderTargets(1);
-                foreach (var target in targets)
-                {
-                    target.Dispose();
-                }
-                depthStencilViewRef?.Dispose();
-                _device.ImmediateContext.OutputMerger.ResetTargets();
-                _width = width;
-                _height = height;
-                CreateSharedTexture();
-                CreateRenderTarget();
-                _device.ImmediateContext.Flush();
-            }
-            Debug.WriteLine($"Resized window {width}x{height}");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine($"Failed to resize window: {e}");
-        }
-    }
-
-    /// <summary>
-    /// Resources cleanup
-    /// </summary>
-    private void Destroy()
-    {
-        Debug.WriteLine("Destroying D3D11 renderer");
-        _device?.Dispose();
-        _device = null;
-        _adapter?.Dispose();
-        _adapter = null;
         _sharedTexture?.Dispose();
-        _sharedTexture = null;
+        _device?.Dispose();
+        _adapter?.Dispose();
+        _popupLayer?.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

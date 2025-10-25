@@ -28,4 +28,10 @@ public class AcceleratedRenderHandler(ChromiumWebBrowser browser, int windowWidt
         if(show) return;
         _renderer?.RemovePopupLayer();
     }
+
+    public new void Dispose()
+    {
+        base.Dispose();
+        _renderer?.Dispose();
+    }
 }

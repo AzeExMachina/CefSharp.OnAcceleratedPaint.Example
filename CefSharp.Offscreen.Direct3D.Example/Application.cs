@@ -3,7 +3,7 @@
 public class Application
 {
     public static Uri Url { get; set; } = new("https://github.com/cefsharp/CefSharp.OnAcceleratedPaint.Example");
-    private OffscreenBrowser browser;
+    private readonly OffscreenBrowser _browser;
     public Application()
     {
         var cefBrowserSettings = new BrowserSettings
@@ -14,13 +14,13 @@ public class Application
             LocalStorage = CefState.Default
         };
         
-        browser = new OffscreenBrowser(1920, 1080, Url.AbsoluteUri, cefBrowserSettings);
+        _browser = new OffscreenBrowser(1920, 1080, Url.AbsoluteUri, cefBrowserSettings);
     }
     
     public void Close()
     {
-        browser.Stop();
-        browser.Dispose();
+        _browser.Stop();
+        _browser.Dispose();
         Cef.Shutdown();
     }
 }
